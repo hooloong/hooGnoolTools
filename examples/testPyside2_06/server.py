@@ -1,9 +1,9 @@
 import win32file
 import win32pipe
-
+import os
 PIPE_NAME = r'\\.\pipe\test_pipe'
 PIPE_BUFFER_SIZE = 65535
-
+stop = False
 while True:
     named_pipe = win32pipe.CreateNamedPipe(PIPE_NAME,
                                            win32pipe.PIPE_ACCESS_DUPLEX,
@@ -11,6 +11,9 @@ while True:
                                            win32pipe.PIPE_UNLIMITED_INSTANCES,
                                            PIPE_BUFFER_SIZE,
                                            PIPE_BUFFER_SIZE, 500, None)
+    if stop is False:
+        os.popen(r"python client.py")
+        stop = True
     try:
         while True:
             try:
